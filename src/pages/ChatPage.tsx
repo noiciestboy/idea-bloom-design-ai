@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useI18n } from "../contexts/I18nContext";
@@ -65,7 +64,6 @@ const ChatPage = () => {
     setIsLoading(true);
 
     try {
-      // Generate AI response with image
       const aiResponse = await generateDesignImage(input);
       setMessages((prev) => [...prev, aiResponse]);
     } catch (error) {
@@ -82,12 +80,12 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-secondary/5 bg-fixed">
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="w-[280px] sm:w-[340px] p-0 border-r-0">
+        <SheetContent side="left" className="w-[280px] sm:w-[340px] p-0 border-r-0 bg-background/95 backdrop-blur-xl">
           <div className="flex flex-col h-full">
-            <div className="p-4 border-b bg-gradient-to-r from-primary/10 to-transparent">
-              <h2 className="text-lg font-semibold text-design-teal">{t("appName")}</h2>
+            <div className="p-4 border-b bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
+              <h2 className="text-lg font-semibold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">{t("appName")}</h2>
               <p className="text-sm text-muted-foreground">{t("tagline")}</p>
             </div>
 
@@ -168,7 +166,7 @@ const ChatPage = () => {
       </Sheet>
 
       <div className="flex flex-col flex-1 h-full overflow-hidden">
-        <header className="border-b p-4 bg-background/70 backdrop-blur-md sticky top-0 z-10">
+        <header className="border-b p-4 bg-background/70 backdrop-blur-md sticky top-0 z-10 transition-all duration-300">
           <div className="flex items-center justify-between max-w-4xl mx-auto w-full">
             <div className="flex items-center">
               <Button 
@@ -228,27 +226,26 @@ const ChatPage = () => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-4 md:p-6 bg-gradient-to-b from-background to-secondary/20">
+        <main className="flex-1 overflow-auto p-4 md:p-6">
           <div className="max-w-4xl mx-auto space-y-6">
             {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full py-12 animate-fadeIn">
-                <div className="text-center space-y-4 max-w-md glass-panel p-8">
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-design-teal to-primary bg-clip-text text-transparent">{t("welcome")}</h2>
+              <div className="flex flex-col items-center justify-center h-full py-12 animate-fade-in">
+                <div className="text-center space-y-4 max-w-md glass-panel p-8 hover-lift">
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                    {t("welcome")}
+                  </h2>
                   <p className="text-muted-foreground">{t("welcomeMessage")}</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                    <div 
-                      className="border rounded-lg p-4 cursor-pointer hover:bg-secondary/50 transition-colors hover-lift bg-background/50 backdrop-blur-sm"
-                      onClick={() => handleSampleQuery(t("sampleQuery1"))}
-                    >
-                      <p>{t("sampleQuery1")}</p>
-                    </div>
-                    <div 
-                      className="border rounded-lg p-4 cursor-pointer hover:bg-secondary/50 transition-colors hover-lift bg-background/50 backdrop-blur-sm"
-                      onClick={() => handleSampleQuery(t("sampleQuery2"))}
-                    >
-                      <p>{t("sampleQuery2")}</p>
-                    </div>
+                    {[t("sampleQuery1"), t("sampleQuery2")].map((query, index) => (
+                      <div 
+                        key={index}
+                        className="border rounded-lg p-4 cursor-pointer transition-all duration-300 hover:bg-secondary/50 hover-lift glass-panel"
+                        onClick={() => handleSampleQuery(query)}
+                      >
+                        <p>{query}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -276,13 +273,13 @@ const ChatPage = () => {
           </div>
         </main>
 
-        <footer className="border-t p-4 bg-background/70 backdrop-blur-md">
+        <footer className="border-t p-4 bg-background/70 backdrop-blur-md transition-all duration-300">
           <div className="max-w-4xl mx-auto flex items-center space-x-2">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("placeholder")}
-              className="flex-1 bg-background/80 border-secondary focus-visible:ring-primary"
+              className="flex-1 bg-background/80 border-secondary focus-visible:ring-primary transition-all duration-300"
               disabled={isLoading}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -295,7 +292,7 @@ const ChatPage = () => {
               onClick={handleSend}
               disabled={isLoading || !input.trim()}
               size="icon"
-              className="rounded-full bg-primary hover:bg-primary/90 hover-lift"
+              className="rounded-full bg-primary hover:bg-primary/90 hover-lift transition-all duration-300"
             >
               <Send className="h-5 w-5" />
               <span className="sr-only">{t("send")}</span>

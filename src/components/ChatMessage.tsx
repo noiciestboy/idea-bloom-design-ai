@@ -17,25 +17,27 @@ const ChatMessage = ({ message, t }: ChatMessageProps) => {
   const isAI = message.role === "assistant";
 
   const saveImage = () => {
-    // In a real app, you would implement actual save functionality
     toast.success("Design saved to your collection");
   };
 
   const shareImage = () => {
-    // In a real app, you would implement actual share functionality
     toast.success("Share link copied to clipboard");
   };
 
   return (
     <div
-      className={`flex ${isUser ? "justify-end" : "justify-start"}`}
+      className={`flex ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}
     >
       <div
         className={`flex max-w-[85%] ${
           isUser ? "flex-row-reverse" : "flex-row"
         } items-start space-x-2 ${isUser ? "space-x-reverse" : ""}`}
       >
-        <Avatar className={`h-8 w-8 mt-1 ${isUser ? 'ring-2 ring-primary/20' : ''}`}>
+        <Avatar 
+          className={`h-8 w-8 mt-1 transition-transform duration-300 hover:scale-110 ${
+            isUser ? 'ring-2 ring-primary/20' : ''
+          }`}
+        >
           {isUser ? (
             <>
               <AvatarImage src={user?.picture} />
@@ -49,33 +51,38 @@ const ChatMessage = ({ message, t }: ChatMessageProps) => {
           )}
         </Avatar>
 
-        <div
-          className={`space-y-2 ${
-            isUser
-              ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground"
-              : "glass-panel bg-secondary/50"
-          } p-4 rounded-2xl ${isUser ? "rounded-tr-sm" : "rounded-tl-sm"} shadow-sm`}
-        >
-          <p className="text-sm whitespace-pre-wrap break-words">
+        <div className={`space-y-2 message-bubble ${isUser ? 'user' : 'ai'} p-4`}>
+          <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">
             {message.content}
           </p>
 
           {message.imageUrl && (
             <div className="mt-3 space-y-3">
-              <div className="relative rounded-lg overflow-hidden shadow-lg">
+              <div className="relative rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-[1.02]">
                 <img
                   src={message.imageUrl}
                   alt="Generated interior design"
-                  className="w-full h-auto object-cover rounded-lg hover:scale-[1.01] transition-transform duration-300"
+                  className="w-full h-auto object-cover rounded-lg"
+                  loading="lazy"
                 />
               </div>
 
               <div className="flex space-x-2">
-                <Button size="sm" variant="outline" onClick={saveImage} className="bg-background/50 backdrop-blur-sm hover:bg-background/80 hover-lift">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={saveImage} 
+                  className="hover-lift bg-background/50 backdrop-blur-sm hover:bg-background/80"
+                >
                   <Save className="h-4 w-4 mr-1" />
                   {t("save")}
                 </Button>
-                <Button size="sm" variant="outline" onClick={shareImage} className="bg-background/50 backdrop-blur-sm hover:bg-background/80 hover-lift">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={shareImage} 
+                  className="hover-lift bg-background/50 backdrop-blur-sm hover:bg-background/80"
+                >
                   <Share className="h-4 w-4 mr-1" />
                   {t("share")}
                 </Button>
