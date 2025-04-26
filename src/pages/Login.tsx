@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useI18n } from "../contexts/I18nContext";
@@ -14,7 +13,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // If already authenticated, redirect to chat
   if (isAuthenticated && !isLoading) {
     navigate("/chat");
     return null;
@@ -29,8 +27,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
-      <header className="w-full p-4 flex justify-between items-center">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-secondary/5 to-primary/5 transition-colors duration-300 bg-fixed">
+      <header className="w-full p-4 flex justify-between items-center backdrop-blur-sm bg-background/40 border-b border-border/50">
         <div className="flex items-center space-x-2">
           <span 
             className="text-2xl font-bold text-design-teal cursor-pointer" 
@@ -68,7 +66,7 @@ const Login = () => {
       </header>
 
       <main className="flex-1 flex items-center justify-center p-6">
-        <div className="glass-panel p-8 md:p-12 rounded-xl max-w-md w-full mx-auto shadow-lg animate-fadeIn">
+        <div className="glass-panel p-8 md:p-12 rounded-xl max-w-md w-full mx-auto shadow-lg animate-fadeIn hover-lift">
           <div className="text-center space-y-4 mb-8">
             <h1 className="text-3xl font-bold">{t("login")}</h1>
             <p className="text-muted-foreground">{t("welcomeMessage")}</p>
@@ -102,7 +100,7 @@ const Login = () => {
         </div>
       </main>
 
-      <footer className="w-full p-4 text-center text-sm text-muted-foreground">
+      <footer className="w-full p-4 text-center text-sm text-muted-foreground backdrop-blur-sm bg-background/40 border-t border-border/50">
         &copy; {new Date().getFullYear()} DesignMuse
       </footer>
     </div>

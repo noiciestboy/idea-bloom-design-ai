@@ -17,13 +17,13 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="text-center p-6 animate-fadeIn">
-        <h1 className="text-7xl font-bold mb-4 text-design-teal">404</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/5 to-primary/5 transition-colors duration-300 bg-fixed">
+      <div className="glass-panel p-8 rounded-xl text-center animate-fadeIn hover-lift">
+        <h1 className="text-7xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">{t("404")}</h1>
         <p className="text-xl text-muted-foreground mb-6">{t("notFound")}</p>
         <Button 
           onClick={() => navigate("/")}
-          className="bg-design-teal hover:bg-opacity-90 text-white"
+          className="bg-primary hover:bg-opacity-90 text-primary-foreground hover-lift"
         >
           {t("backToHome")}
         </Button>

@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useI18n } from "../contexts/I18nContext";
 import { useTheme } from "../contexts/ThemeContext";
@@ -17,8 +16,8 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
-      <header className="w-full p-4 flex justify-between items-center">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-secondary/5 to-primary/5 transition-colors duration-300 bg-fixed">
+      <header className="w-full p-4 flex justify-between items-center backdrop-blur-sm bg-background/40 border-b border-border/50">
         <div className="flex items-center space-x-2">
           <span className="text-2xl font-bold text-design-teal">{t("appName")}</span>
         </div>
@@ -74,7 +73,7 @@ const Index = () => {
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <div className="glass-panel p-6 flex flex-col items-center">
+            <div className="glass-panel p-6 flex flex-col items-center hover-lift">
               <img 
                 src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW50ZXJpb3IlMjBkZXNpZ258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" 
                 alt="Modern interior"
@@ -83,7 +82,7 @@ const Index = () => {
               <h3 className="text-lg font-semibold mb-2">Modern Minimalist</h3>
               <p className="text-sm text-muted-foreground">Clean lines, neutral colors, and functional furniture</p>
             </div>
-            <div className="glass-panel p-6 flex flex-col items-center">
+            <div className="glass-panel p-6 flex flex-col items-center hover-lift">
               <img 
                 src="https://images.unsplash.com/photo-1616137422495-1e9e46e2aa77?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aW50ZXJpb3IlMjBkZXNpZ258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" 
                 alt="Scandinavian interior"
@@ -97,14 +96,14 @@ const Index = () => {
           <Button
             onClick={() => navigate("/login")}
             size="lg"
-            className="mt-8 bg-design-teal hover:bg-opacity-90 text-white font-semibold"
+            className="mt-8 bg-primary hover:bg-opacity-90 text-primary-foreground font-semibold hover-lift"
           >
             {t("getStarted")}
           </Button>
         </div>
       </main>
 
-      <footer className="w-full p-4 text-center text-sm text-muted-foreground">
+      <footer className="w-full p-4 text-center text-sm text-muted-foreground backdrop-blur-sm bg-background/40 border-t border-border/50">
         &copy; {new Date().getFullYear()} DesignMuse
       </footer>
     </div>
