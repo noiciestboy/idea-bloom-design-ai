@@ -45,6 +45,7 @@ const ChatPage = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -82,7 +83,7 @@ const ChatPage = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      <Sheet>
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
         <SheetContent side="left" className="w-[280px] sm:w-[340px] p-0">
           <div className="flex flex-col h-full">
             <div className="p-4 border-b">
@@ -169,11 +170,14 @@ const ChatPage = () => {
       <div className="flex flex-col flex-1 h-full overflow-hidden">
         <header className="border-b p-4 flex items-center justify-between">
           <div className="flex items-center">
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Open sidebar</span>
+            </Button>
             <h1 className="text-lg font-semibold ml-2">{t("appName")}</h1>
           </div>
 
