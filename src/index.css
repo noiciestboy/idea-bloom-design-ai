@@ -104,3 +104,61 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-400 dark:bg-gray-600;
 }
+
+/* Modern animations */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Chat animations */
+.message-animate-in {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  margin: 0 1px;
+  background-color: currentColor;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.6;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation: pulse 1s infinite 0.1s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation: pulse 1s infinite 0.3s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation: pulse 1s infinite 0.5s;
+}
+
+/* Button hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}

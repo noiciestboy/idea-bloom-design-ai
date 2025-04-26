@@ -84,9 +84,9 @@ const ChatPage = () => {
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="w-[280px] sm:w-[340px] p-0">
+        <SheetContent side="left" className="w-[280px] sm:w-[340px] p-0 border-r-0">
           <div className="flex flex-col h-full">
-            <div className="p-4 border-b">
+            <div className="p-4 border-b bg-gradient-to-r from-primary/10 to-transparent">
               <h2 className="text-lg font-semibold text-design-teal">{t("appName")}</h2>
               <p className="text-sm text-muted-foreground">{t("tagline")}</p>
             </div>
@@ -94,7 +94,7 @@ const ChatPage = () => {
             <div className="flex-1 overflow-auto p-4">
               <Button
                 variant="outline"
-                className="w-full justify-start mb-4"
+                className="w-full justify-start mb-4 hover-lift bg-background/80 backdrop-blur-sm"
                 onClick={() => {
                   setMessages([]);
                   toast.success("Started a new chat");
@@ -109,7 +109,7 @@ const ChatPage = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start text-left whitespace-normal h-auto"
+                    className="w-full justify-start text-left whitespace-normal h-auto hover:bg-primary/5 transition-all duration-200"
                     onClick={() => handleSampleQuery(t("sampleQuery1"))}
                   >
                     {t("sampleQuery1")}
@@ -117,7 +117,7 @@ const ChatPage = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start text-left whitespace-normal h-auto"
+                    className="w-full justify-start text-left whitespace-normal h-auto hover:bg-primary/5 transition-all duration-200"
                     onClick={() => handleSampleQuery(t("sampleQuery2"))}
                   >
                     {t("sampleQuery2")}
@@ -125,7 +125,7 @@ const ChatPage = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start text-left whitespace-normal h-auto"
+                    className="w-full justify-start text-left whitespace-normal h-auto hover:bg-primary/5 transition-all duration-200"
                     onClick={() => handleSampleQuery(t("sampleQuery3"))}
                   >
                     {t("sampleQuery3")}
@@ -134,7 +134,7 @@ const ChatPage = () => {
               </div>
             </div>
 
-            <div className="p-4 border-t">
+            <div className="p-4 border-t bg-gradient-to-r from-transparent to-primary/5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   {languages.map((lang) => (
@@ -142,7 +142,7 @@ const ChatPage = () => {
                       key={lang.code}
                       variant={language === lang.code ? "default" : "ghost"}
                       size="sm"
-                      className="w-8 h-8 p-0"
+                      className={`w-8 h-8 p-0 ${language === lang.code ? "bg-primary text-primary-foreground" : "hover:bg-secondary/80"}`}
                       onClick={() => setLanguage(lang.code)}
                     >
                       {lang.code.toUpperCase()}
@@ -152,7 +152,7 @@ const ChatPage = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="w-8 h-8 p-0"
+                  className="w-8 h-8 p-0 rounded-full hover:bg-secondary/80"
                   onClick={toggleTheme}
                 >
                   {theme === "light" ? (
@@ -168,77 +168,83 @@ const ChatPage = () => {
       </Sheet>
 
       <div className="flex flex-col flex-1 h-full overflow-hidden">
-        <header className="border-b p-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setSidebarOpen(true)}
-            >
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Open sidebar</span>
-            </Button>
-            <h1 className="text-lg font-semibold ml-2">{t("appName")}</h1>
-          </div>
+        <header className="border-b p-4 bg-background/70 backdrop-blur-md sticky top-0 z-10">
+          <div className="flex items-center justify-between max-w-4xl mx-auto w-full">
+            <div className="flex items-center">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setSidebarOpen(true)}
+                className="rounded-full hover:bg-secondary/80"
+              >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Open sidebar</span>
+              </Button>
+              <h1 className="text-lg font-semibold ml-2 bg-gradient-to-r from-design-teal to-primary bg-clip-text text-transparent">{t("appName")}</h1>
+            </div>
 
-          <div className="flex items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={user?.picture} />
-                    <AvatarFallback>
-                      <UserRound className="h-5 w-5" />
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
-                <DropdownMenuLabel className="text-xs text-muted-foreground">{user?.email}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={toggleTheme}>
-                  {theme === "light" ? (
-                    <Moon className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Sun className="h-4 w-4 mr-2" />
-                  )}
-                  {t(theme === "light" ? "dark" : "light")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <Settings className="h-4 w-4 mr-2" />
-                  {t("settings")}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => {
-                  logout();
-                  navigate("/login");
-                }}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  {t("logout")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex items-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full hover:bg-secondary/80">
+                    <Avatar className="h-8 w-8 ring-2 ring-background">
+                      <AvatarImage src={user?.picture} />
+                      <AvatarFallback>
+                        <UserRound className="h-5 w-5" />
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 backdrop-blur-md bg-background/95">
+                  <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
+                  <DropdownMenuLabel className="text-xs text-muted-foreground">{user?.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={toggleTheme} className="cursor-pointer">
+                    {theme === "light" ? (
+                      <Moon className="h-4 w-4 mr-2" />
+                    ) : (
+                      <Sun className="h-4 w-4 mr-2" />
+                    )}
+                    {t(theme === "light" ? "dark" : "light")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="cursor-pointer">
+                    <Settings className="h-4 w-4 mr-2" />
+                    {t("settings")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      logout();
+                      navigate("/login");
+                    }} 
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    {t("logout")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-4 md:p-6">
+        <main className="flex-1 overflow-auto p-4 md:p-6 bg-gradient-to-b from-background to-secondary/20">
           <div className="max-w-4xl mx-auto space-y-6">
             {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full py-12">
-                <div className="text-center space-y-4 max-w-md">
-                  <h2 className="text-2xl font-bold">{t("welcome")}</h2>
+              <div className="flex flex-col items-center justify-center h-full py-12 animate-fadeIn">
+                <div className="text-center space-y-4 max-w-md glass-panel p-8">
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-design-teal to-primary bg-clip-text text-transparent">{t("welcome")}</h2>
                   <p className="text-muted-foreground">{t("welcomeMessage")}</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
                     <div 
-                      className="border rounded-lg p-4 cursor-pointer hover:bg-secondary/50 transition-colors"
+                      className="border rounded-lg p-4 cursor-pointer hover:bg-secondary/50 transition-colors hover-lift bg-background/50 backdrop-blur-sm"
                       onClick={() => handleSampleQuery(t("sampleQuery1"))}
                     >
                       <p>{t("sampleQuery1")}</p>
                     </div>
                     <div 
-                      className="border rounded-lg p-4 cursor-pointer hover:bg-secondary/50 transition-colors"
+                      className="border rounded-lg p-4 cursor-pointer hover:bg-secondary/50 transition-colors hover-lift bg-background/50 backdrop-blur-sm"
                       onClick={() => handleSampleQuery(t("sampleQuery2"))}
                     >
                       <p>{t("sampleQuery2")}</p>
@@ -248,16 +254,21 @@ const ChatPage = () => {
               </div>
             ) : (
               messages.map((message, i) => (
-                <ChatMessage 
-                  key={i} 
-                  message={message} 
-                  t={t} 
-                />
+                <div key={i} className="message-animate-in" style={{animationDelay: `${i * 0.1}s`}}>
+                  <ChatMessage 
+                    message={message} 
+                    t={t} 
+                  />
+                </div>
               ))
             )}
             {isLoading && (
-              <div className="flex items-center space-x-2 bg-secondary/50 p-4 rounded-lg">
-                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-primary"></div>
+              <div className="flex items-center space-x-2 bg-secondary/50 p-4 rounded-lg animate-pulse glass-panel">
+                <div className="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
                 <p>{t("typing")}</p>
               </div>
             )}
@@ -265,13 +276,13 @@ const ChatPage = () => {
           </div>
         </main>
 
-        <footer className="border-t p-4">
+        <footer className="border-t p-4 bg-background/70 backdrop-blur-md">
           <div className="max-w-4xl mx-auto flex items-center space-x-2">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("placeholder")}
-              className="flex-1"
+              className="flex-1 bg-background/80 border-secondary focus-visible:ring-primary"
               disabled={isLoading}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -284,6 +295,7 @@ const ChatPage = () => {
               onClick={handleSend}
               disabled={isLoading || !input.trim()}
               size="icon"
+              className="rounded-full bg-primary hover:bg-primary/90 hover-lift"
             >
               <Send className="h-5 w-5" />
               <span className="sr-only">{t("send")}</span>
